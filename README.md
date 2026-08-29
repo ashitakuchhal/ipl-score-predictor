@@ -84,93 +84,55 @@ The final dataset contains:
 * **26,702 training rows**
 * **73 features**
 
-## 📊 Dataset
+ ## 📊 Dataset
 
-The project uses historical **IPL ball-by-ball delivery data**.
+This project uses historical IPL match and ball-by-ball delivery data covering IPL seasons from **2008 to 2024**.
 
-Raw delivery data contains individual balls rather than complete match-state snapshots. Therefore, the raw data is transformed into meaningful training examples.
+The original raw dataset is **not included in this repository** to keep the repository lightweight. Instead, the cleaned and processed datasets generated during the project are included in `data/processed/`.
 
-For example:
+### Dataset Source
 
-```text
-Batting Team:       CSK
-Bowling Team:       MI
-Venue:              Wankhede
-Overs Completed:    12
-Current Score:      108
-Wickets Lost:       3
-Recent Scoring:     47 runs
+The raw dataset was obtained from Kaggle:
 
-                    ↓
+**IPL Complete Dataset (2008–2020)**
+https://www.kaggle.com/datasets/patrickb1912/ipl-complete-dataset-20082020
 
-            Predicted Final Score
-```
+### Data Used
 
-Each historical innings can generate multiple snapshots at different stages of the innings.
+The dataset contains information about:
 
-This allows the model to learn how the state of an innings at a particular point relates to its eventual final score.
+* IPL matches
+* Teams
+* Venues
+* Match results
+* Ball-by-ball deliveries
+* Runs scored
+* Wickets
+* Innings information
 
-## ⚙️ Data Cleaning
-
-Before feature engineering, the historical data is cleaned and standardized.
-
-The preprocessing pipeline includes:
-
-1. Loading match and ball-by-ball datasets
-2. Standardizing team names across different IPL seasons
-3. Handling historical team-name changes
-4. Removing no-result matches
-5. Removing delivery records belonging to excluded matches
-6. Checking and maintaining consistency between match and delivery data
-7. Preparing cleaned datasets for feature engineering
-
-The cleaned data is then used to construct the machine learning dataset.
-
-## 🔧 Feature Engineering
-
-One of the main parts of the project is transforming raw ball-by-ball data into useful machine learning features.
-
-The delivery-level data is first aggregated by:
+### Data Processing Pipeline
 
 ```text
-match → innings → over
+Original IPL Dataset
+        ↓
+Data Cleaning
+        ↓
+Team Name Standardization
+        ↓
+No-Result Match Removal
+        ↓
+Cleaned Match & Delivery Data
+        ↓
+Feature Engineering
+        ↓
+Training Dataset
+        ↓
+Machine Learning Models
 ```
 
-From this, the following information is calculated:
+The raw delivery data was transformed into match-state snapshots that could be used as training examples for predicting the final innings score.
 
-* Runs scored in each over
-* Wickets lost in each over
-* Cumulative score
-* Cumulative wickets
-* Overs completed
-* Recent five-over scoring
-* Recent five-over wickets
-* Batting team
-* Bowling team
-* Venue
-* Final innings score
-
-For example, multiple individual delivery records:
-
-```text
-Ball 1 → 1 run
-Ball 2 → 4 runs
-Ball 3 → 0 runs
-Ball 4 → 2 runs
-...
-```
-
-are converted into a match-state representation such as:
-
-```text
-Over:             12
-Current Score:    108
-Wickets:          3
-Last 5 Runs:      47
-Final Score:      184
-```
-
-This process transforms raw cricket data into a structured dataset suitable for machine learning.
+The processed datasets included in this repository allow the data preparation and machine learning pipeline to be inspected without storing the original raw delivery dataset in the repository.
 
 ## 🤖 Models Evaluated
 
