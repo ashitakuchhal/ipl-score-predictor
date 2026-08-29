@@ -31,6 +31,7 @@ Raw data files are not included in this repo due to size. To reproduce this proj
 
 ## Run the app locally
 pip install -r requirements.txt
+
 python -m streamlit run app.py
 
 
